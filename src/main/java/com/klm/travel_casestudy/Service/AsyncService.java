@@ -119,6 +119,7 @@ public class AsyncService {
         multiValueMap.add("grant_type", grantType);
         HttpEntity<MultiValueMap<String, String>> multiValueMapHttpEntity = new HttpEntity<>(multiValueMap, headers);
         Token token = restTemplate.postForObject(tokenUrl, multiValueMapHttpEntity, Token.class);
+        log.info("requested token :::",token);
         return token;
     }
 }
