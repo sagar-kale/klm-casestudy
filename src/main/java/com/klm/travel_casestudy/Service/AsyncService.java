@@ -80,7 +80,14 @@ public class AsyncService {
     public CompletableFuture<Airport> getAirportsByTerm(String term, String auth) throws InterruptedException {
         //   restTemplate.getMessageConverters().add(fetchMsgConvertor());
         HttpEntity<String> stringHttpEntity = setHeaders(auth);
-        ResponseEntity<Map> airportMap = restTemplate.exchange(airportUrlByTerm + term, HttpMethod.GET, stringHttpEntity, Map.class);
+        ResponseEntity<Map> airportMap = null;
+        try {
+            airportMap = restTemplate.exchange(airportUrlByTerm + term, HttpMethod.GET, stringHttpEntity, Map.class);
+        } catch (Exception e) {
+            log.error("Error Ocuured while accessing airport", e.getMessage());
+        }
+        if (null == airportMap)
+            return CompletableFuture.completedFuture(new Airport());
         log.info("Airport data, {}", airportMap.getBody());
         //Map map = gson.fromJson(airportData.getBody(), Map.class);
         String embedded = gson.toJson(airportMap.getBody().get("_embedded"));
@@ -119,7 +126,7 @@ public class AsyncService {
         multiValueMap.add("grant_type", grantType);
         HttpEntity<MultiValueMap<String, String>> multiValueMapHttpEntity = new HttpEntity<>(multiValueMap, headers);
         Token token = restTemplate.postForObject(tokenUrl, multiValueMapHttpEntity, Token.class);
-        log.info("requested token :::",token);
+        log.info("requested token :::" + token);
         return token;
     }
 }
