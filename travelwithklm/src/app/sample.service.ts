@@ -14,7 +14,7 @@ const httpOptions = {
 })
 export class SampleService {
 
-  private global_url = "http://localhost:7777"
+  private global_url = "/"
   constructor(
     private http: HttpClient
   ) { }
@@ -22,7 +22,7 @@ export class SampleService {
   getFareByOriginAndDest(fare: Fare): Observable<Fare> {
     console.log("origin.....", fare.origin);
     console.log("destination.....", fare.destination);
-    return this.http.get<Fare>(this.global_url + '/fares/' + fare.origin + '/' + fare.destination, {
+    return this.http.get<Fare>(this.global_url + 'fares/' + fare.origin + '/' + fare.destination, {
       headers: {
         'Content-Type': 'application/json'
       }
@@ -30,13 +30,13 @@ export class SampleService {
   }
   getAirportByTerm(fare: Fare): Observable<Airport> {
     console.log("token.....", fare.token)
-    return this.http.get<Airport>(this.global_url + '/airports?term=' + fare.term, {
+    return this.http.get<Airport>(this.global_url + 'airports?term=' + fare.term, {
       headers: {
         'Content-Type': 'application/json'
       }
     });
   }
   fetchStat(): Observable<any> {
-    return this.http.get<any>(`${this.global_url}/metrics/total/requests`);
+    return this.http.get<any>(`${this.global_url}metrics/total/requests`);
   }
 }
