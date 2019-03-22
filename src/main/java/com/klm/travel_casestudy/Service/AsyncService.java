@@ -62,7 +62,8 @@ public class AsyncService {
 
     HttpEntity<String> setHeaders(String auth) {
         log.info("authhhh:: ::  :: " + auth);
-        if (!auth.replaceAll("\"", "").equalsIgnoreCase("Bearer NA") && !auth.equalsIgnoreCase("Bearer null"))
+        auth = auth.replaceAll("\"", "").trim();
+        if (!auth.equalsIgnoreCase("Bearer NA") && !auth.equalsIgnoreCase("Bearer null") && !auth.equalsIgnoreCase("bearer"))
             headers.add("Authorization", auth);
         return httpEntity = new HttpEntity<>(headers);
     }
