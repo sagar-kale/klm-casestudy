@@ -1,8 +1,13 @@
 # KLM Airlines Case study 
 Contains spring boot and angular app
 
+## Prerequisites.
+
+**Clone `https://github.com/SanjeevKote/simple-travel-api-maven-mock.git` and run using `mvn spring-boot:run` 
+
 ## Compile and Run.
-`mvn spring-boot:run`
+`mvn clean install` **It install npm and its dependencies via fronend-maven-plugin**
+`mvn spring-boot:run` **Open Browser and Enter `http://localhost:7777` it will load Angular UI**
 
 ## For angular install npm and run using following commands.
 `cd travelwithklm`
