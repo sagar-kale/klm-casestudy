@@ -9,21 +9,6 @@ Contains spring boot and angular app
 `mvn clean install` **It install npm and its dependencies via fronend-maven-plugin**
 `mvn spring-boot:run` **Open Browser and Enter `http://localhost:7777` it will load Angular UI**
 
-## For angular install npm and run using following commands.
-`cd travelwithklm`
-`npm install`
-`npm start`
-
-## Important Notes
-
-- Make sure add bearer token in header before calling airports endpoints except matics.
-- **Or Make sure you disable oAuth2 for seamless execution of end to end , Just edit configuration under `ResourceServerConfiguration.java` file in provided mock spring boot demo project using following way.**
-```
-http.anonymous()
-                .and()
-                .authorizeRequests()
-                .antMatchers("/").permitAll();
-```
 
 ## Spring Boot Endpoints 
 
@@ -36,9 +21,8 @@ http.anonymous()
 ###### Statatics Endoint
 `http://localhost:7777/metrics/total/requests`
 
-## Note for Token input box present under angularUI
-
- **Have provided token box for token in angular ui , make sure chnage it with letest one or leave it empty if oAuth is disabled.**
+## UI
+**Provided origin and destnation inbuild search**
 
 
 
