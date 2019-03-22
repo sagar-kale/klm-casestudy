@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.klm.travel_casestudy.domain.Airport;
 import com.klm.travel_casestudy.domain.Fare;
 import com.klm.travel_casestudy.domain.Location;
+import com.klm.travel_casestudy.domain.Token;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +15,12 @@ import org.springframework.http.*;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
@@ -29,6 +33,9 @@ public class AsyncService {
 
     private String airportUrlByTerm;
     private String airportsUrl;
+    private String tokenUrl;
+    private String clientCred;
+    private String grantType;
     private String airportByCode;
     private String fareUrl;
     private String slash;
@@ -61,9 +68,10 @@ public class AsyncService {
     }
 
     HttpEntity<String> setHeaders(String auth) {
-        log.info("authhhh:: ::  :: " + auth);
-        auth = auth.replaceAll("\"", "").trim();
-        if (!auth.equalsIgnoreCase("Bearer NA") && !auth.equalsIgnoreCase("Bearer null") && !auth.equalsIgnoreCase("bearer"))
+        log.info("auth length:: ::  :: " + auth.length());
+        // auth = auth.replaceAll("\"", "").trim();
+        //    if (!auth.equalsIgnoreCase("Bearer NA") && !auth.equalsIgnoreCase("Bearer null") && !auth.equalsIgnoreCase("bearer"))
+        if (auth.length() == 43)
             headers.add("Authorization", auth);
         return httpEntity = new HttpEntity<>(headers);
     }
@@ -101,5 +109,16 @@ public class AsyncService {
         ResponseEntity<Fare> fareData = restTemplate.exchange(fareUrl + origin + slash + dest, HttpMethod.GET, stringHttpEntity, Fare.class);
         log.info("getFare completed");
         return CompletableFuture.completedFuture(fareData.getBody());
+    }
+
+    public Token fetchToken() {
+        headers.add("Authorization", "Basic " + Base64.getEncoder().encodeToString(clientCred.getBytes()));
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<>();
+        multiValueMap.add("grant type", grantType);
+        multiValueMap.add("grant_type", grantType);
+        HttpEntity<MultiValueMap<String, String>> multiValueMapHttpEntity = new HttpEntity<>(multiValueMap, headers);
+        Token token = restTemplate.postForObject(tokenUrl, multiValueMapHttpEntity, Token.class);
+        return token;
     }
 }

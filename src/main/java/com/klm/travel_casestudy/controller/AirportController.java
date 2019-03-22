@@ -4,6 +4,7 @@ import com.klm.travel_casestudy.Service.AsyncService;
 import com.klm.travel_casestudy.domain.Airport;
 import com.klm.travel_casestudy.domain.Fare;
 import com.klm.travel_casestudy.domain.Location;
+import com.klm.travel_casestudy.domain.Token;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -21,11 +22,10 @@ public class AirportController {
     private AsyncService service;
 
     @GetMapping(value = "/airports", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, params = "term")
-    public Airport getAirports(@RequestHeader(value = "Authorization") String auth, @RequestParam("term") String term) {
-        log.info("Authrization value :: " + auth);
+    public Airport getAirports(@RequestParam("term") String term) {
         Airport airports = null;
         try {
-            airports = service.getAirportsByTerm(term, auth).get();
+            airports = service.getAirportsByTerm(term, buildAuth(service.fetchToken())).get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -35,37 +35,20 @@ public class AirportController {
     }
 
     @GetMapping(value = "/fares/{origin}/{destination}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Fare getFare(@RequestHeader(value = "Authorization") String auth, @PathVariable("origin") String origin,
+    public Fare getFare(@PathVariable("origin") String origin,
                         @PathVariable("destination") String destination) throws ExecutionException, InterruptedException {
-        log.info("token :::: "+auth);
-        CompletableFuture<Fare> fare = service.getFare(origin, destination, auth);
+        CompletableFuture<Fare> fare = service.getFare(origin, destination, buildAuth(service.fetchToken()));
         return fare.get();
     }
 
     @GetMapping(value = "/airports/{code}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Location getAirport(@RequestHeader(value = "Authorization") String auth, @PathVariable("code") String code) throws ExecutionException, InterruptedException {
-        CompletableFuture<Location> airportByCode = service.getAirportByCode(code, auth);
+    public Location getAirport(@PathVariable("code") String code) throws ExecutionException, InterruptedException {
+        CompletableFuture<Location> airportByCode = service.getAirportByCode(code, buildAuth(service.fetchToken()));
         return airportByCode.get();
     }
 
-
-
-/*
-    @GetMapping(value = "/testAsynch")
-    public void testAsynch() throws InterruptedException, ExecutionException {
-        log.info("testAsynch Start");
-
-        CompletableFuture<Location> airports = service.getAirportByCode("AMS");
-        CompletableFuture<Location> employeeName = service.getAirportsByTerm("Amsterdam");
-        CompletableFuture<Fare> employeePhone = service.getFare();
-
-        // Wait until they are all done
-        CompletableFuture.allOf(employeeAddress, employeeName, employeePhone).join();
-
-        log.info("EmployeeAddress--> " + employeeAddress.get());
-        log.info("EmployeeName--> " + employeeName.get());
-        log.info("EmployeePhone--> " + employeePhone.get());
+    private static String buildAuth(Token token) {
+        return String.format("%s %s", token.getTokenType(), token.getAccessToken());
     }
-*/
 
 }

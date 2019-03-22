@@ -77,14 +77,12 @@ export class UserComponent implements OnInit {
   fetchOrigin(val: any) {
     this.isOriginSelected = true;
     this.buildFareData(val);
-    console.log("token::: " + this.fare.token);
     this.sampleService.getAirportByTerm(this.fare).subscribe(res => {
       if (res) {
         this.resData="";
         this.result = res.locations;
         return;
       }
-      localStorage.removeItem("token");
       this.resData = "No Data Found";
     });
   }
@@ -100,7 +98,6 @@ export class UserComponent implements OnInit {
         this.result = res.locations;
         return;
       }
-      localStorage.removeItem("token");
       this.resData = "No Data Found";
     });
   }
@@ -112,14 +109,8 @@ export class UserComponent implements OnInit {
     this.destval = obj.code;
     this.isDestSelected = false;
   }
-  saveToken(token: string) {
-    localStorage.setItem("token", token);
-  }
+
   buildFareData(value: any) {
-    if (localStorage.getItem("token") === null) {
-      localStorage.setItem("token","NA");
-    }
-    this.fare.token = JSON.stringify(localStorage.getItem("token"));
     this.fare.term = value;
   }
 }

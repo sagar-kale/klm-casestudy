@@ -24,8 +24,7 @@ export class SampleService {
     console.log("destination.....", fare.destination);
     return this.http.get<Fare>(this.global_url + '/fares/' + fare.origin + '/' + fare.destination, {
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${fare.token}`
+        'Content-Type': 'application/json'
       }
     });
   }
@@ -33,8 +32,7 @@ export class SampleService {
     console.log("token.....", fare.token)
     return this.http.get<Airport>(this.global_url + '/airports?term=' + fare.term, {
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${fare.token}`
+        'Content-Type': 'application/json'
       }
     });
   }
