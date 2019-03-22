@@ -1,0 +1,89 @@
+<div class="container-fluid bg-light py-3">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card card-body">
+        <h3 class="text-center mb-4">Search Flights</h3>
+
+
+        <div class="alert alert-success" *ngIf="message">
+          <a class="close font-weight-light" data-dismiss="alert">×</a>{{message}}
+        </div>
+        <div class="alert alert-info" *ngIf="resData">
+          <a class="close font-weight-light" data-dismiss="alert">×</a>{{resData}}
+        </div>
+
+
+        <form id="fare-form" [formGroup]="fareForm" (ngSubmit)="onSubmit()" role="form">
+          <fieldset>
+            <div class="form-group">
+              <input #origin class="form-control input-lg" placeholder="Search Origin" name="origin" type="text" formControlName="origin" value="{{orgnval}}" (keyup)="fetchOrigin(origin.value)" autocomplete="false">
+                <div class="card text-white bg-secondary" *ngIf="isOriginSelected">
+                  <div class="card-body" *ngFor="let location of result">
+                    {{location.code}}
+                    {{location.name}}
+                    {{location.description}}
+                    <button class="btn btn-primary" (click)="selectOrigin(location)">select origin</button>
+                  </div>
+                </div>
+              <div class="alert alert-danger" *ngIf="submitted && orgnError">
+                <a class="close font-weight-light" data-dismiss="alert"
+                  >×</a>Origin is required.
+              </div>
+            </div>
+            <div class="form-group">
+              <input class="form-control input-lg" placeholder="Search Destination" name="destination" type="text"
+                formControlName="destination" value="{{destval}}" #dest (keyup)="fetchDest(dest.value)" autocomplete="false">
+                <div class="card text-white bg-secondary" *ngIf="isDestSelected">
+                  <div class="card-body" *ngFor="let location of result">
+                    {{location.code}}
+                    {{location.name}}
+                    {{location.description}}
+                    <button class="btn btn-primary" (click)="selectDest(location)">select dest</button>
+                  </div>
+                </div>
+
+              <div class="alert alert-danger" *ngIf="submitted && destError">
+                <a class="close font-weight-light" data-dismiss="alert"
+                  >×</a>Your Destination is required.
+              </div>
+            </div>
+
+            <div class="form-group">
+              <input #token class="form-control input-lg" placeholder="Provide token here" name="token" type="text"
+                formControlName="token" (blur)="saveToken(token.value)">
+
+              <div class="alert alert-danger" *ngIf="submitted && tokenError">
+                <a class="close font-weight-light" data-dismiss="alert">×</a>PLease provide token without bearer.
+              </div>
+            </div>
+          
+            <input type="button" class="btn btn-lg btn-primary btn-block" value="Get Fare" (click)="getFare(origin.value,dest.value)">
+            <input type="submit" style="display:none">
+          </fieldset>
+        </form>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card card-body">
+        <h3 class="text-center mb-4">Fare Information</h3>
+        <h4 *ngIf="isLoading" class="text-center mb-4">loading....</h4>
+        <div *ngIf="!isLoading" class="table-responsive">
+          <table class="table">
+            <th>Origin </th>
+            <th>Destination</th>
+            <th>Amount </th>
+            <th>Currency </th>
+
+            <tr>
+              <td>{{fareData.origin}}</td>
+              <td>{{fareData.destination}}</td>
+              <td>{{fareData.amount}}</td>
+              <td>{{fareData.currency}}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

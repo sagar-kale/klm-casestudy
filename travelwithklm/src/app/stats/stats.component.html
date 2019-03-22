@@ -1,0 +1,31 @@
+<div class="container-fluid bg-light py-3">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card card-body">
+        <h3 class="text-center mb-4">Site Statistics</h3>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Total Number Of Requests</th>
+              <th scope="col">Ok Response</th>
+              <th scope="col">4XX Response</th>
+              <th scope="col">5XX Response</th>
+              <th scope="col">Avg Response Time</th>
+              <th scope="col">Max Response Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{stats.totalNumberOfRequests}}</td>
+              <td>{{stats.totalNumberOfOKRes}}</td>
+              <td>{{stats.totalNumberOf4XXRes}}</td>
+              <td>{{stats.totalNumberOf5XXRes}}</td>
+              <td>{{stats.avgResTime}}</td>
+              <td>{{stats.maxResTime}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
