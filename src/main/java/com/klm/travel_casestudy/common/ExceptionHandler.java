@@ -13,7 +13,7 @@ import java.net.URI;
 public class ExceptionHandler implements ResponseErrorHandler {
     @Override
     public boolean hasError(ClientHttpResponse clientHttpResponse) throws IOException {
-        log.info("status code ::: " + clientHttpResponse.getStatusCode().value());
+
         if (clientHttpResponse.getStatusCode() != HttpStatus.OK) {
 
             log.error("Error Response :::" + clientHttpResponse.getStatusText());

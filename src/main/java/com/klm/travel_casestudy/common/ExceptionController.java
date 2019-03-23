@@ -20,6 +20,11 @@ public class ExceptionController {
         return new ResponseEntity(SERVICE_UNAVAILABLE);
     }
 
+    @ExceptionHandler(TravelAppException.class)
+    public HttpEntity handleGlobalException(TravelAppException t) {
+        return new ResponseEntity(t.getMessage(), t.getCode());
+    }
+
     @ExceptionHandler(HttpServerErrorException.class)
     public HttpEntity handleGlobalException(HttpServerErrorException e) {
         return new ResponseEntity(e.getStatusCode());
@@ -29,5 +34,6 @@ public class ExceptionController {
     public HttpEntity handleBadRequest() {
         return new ResponseEntity(BAD_REQUEST);
     }
+
 
 }
