@@ -17,4 +17,6 @@ public class Token {
     private String tokenType;
     @JsonProperty("expires_in")
     private String expiresIn;
+    @JsonProperty("refresh_token")
+    private String refreshToken;
 }
