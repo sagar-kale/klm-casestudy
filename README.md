@@ -3,7 +3,7 @@ Contains spring boot and angular app
 
 ## Prerequisites.
 
-**Clone `https://github.com/SanjeevKote/simple-travel-api-maven-mock.git` and run using `mvn spring-boot:run` 
+**Clone `https://github.com/SanjeevKote/simple-travel-api-maven-mock.git` and run using `mvn spring-boot:run`.**
 
 ## Compile and Run.
 `mvn clean install` **It install npm and its dependencies via frontend-maven-plugin**
