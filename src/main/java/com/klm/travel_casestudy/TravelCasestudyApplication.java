@@ -11,7 +11,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 @EnableOAuth2Client
 @EnableAutoConfiguration
 @SpringBootApplication
-@EnableAsync
 public class TravelCasestudyApplication {
 
     @Bean
