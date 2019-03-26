@@ -12,7 +12,9 @@ Contains spring boot and angular app
 ## Compile and Run.
 
 `mvn clean install` **It will install npm and its dependencies via frontend-maven-plugin**
+
 **Then run application using `mvn spring-boot:run` command , 
+
 Open browser type url ->  `http://localhost:7777` It will load Angular UI**
 
 
@@ -31,6 +33,7 @@ Open browser type url ->  `http://localhost:7777` It will load Angular UI**
 ## UI
 
 **Provided origin and destination inbuilt search at `search flight` Menu **
+
 **Backend Statistics displayed at `Statistics` Menu**
 
 
