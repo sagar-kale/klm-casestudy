@@ -1,3 +1,23 @@
-<p>
-  airports works!
-</p>
+<div class="container-fluid bg-light py-3">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card card-body">
+        <h3 class="text-center mb-4">Airports Information</h3>
+        <div class="card card-body">
+          <div class="table-responsive">
+            <table class="table">
+              <th>Code </th>
+              <th>Name</th>
+              <th>Description </th>
+              <tr *ngFor="let location of locations.locations">
+                <td>{{location.code}}</td>
+                <td>{{location.name}}</td>
+                <td>{{location.description}}</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
