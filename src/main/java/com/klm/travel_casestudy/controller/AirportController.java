@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -38,7 +38,7 @@ public class AirportController {
         log.info("under airport by term method");
         Map map = null;
         try {
-            Future<Map> future = asyncService.getAsynchronousResults(endpoint.getAirportUrlByTerm() + term, Map.class, restTemplate);
+            CompletableFuture<Map> future = asyncService.getAsynchronousResults(endpoint.getAirportUrlByTerm() + term, Map.class, restTemplate);
             map = future.get();
         } catch (TravelAppException e) {
             log.error("Error Occurred ::: {} {}", e.getCode(), e.getMessage());
@@ -51,7 +51,7 @@ public class AirportController {
     @GetMapping(value = "/fares/{origin}/{destination}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Fare getFare(@PathVariable("origin") String origin,
                         @PathVariable("destination") String destination) throws ExecutionException, InterruptedException {
-        Future<Fare> asynchronousResults = null;
+        CompletableFuture<Fare> asynchronousResults = null;
         try {
             asynchronousResults = asyncService.getAsynchronousResults(endpoint.getFareUrl() + origin + endpoint.getSlash() + destination, Fare.class, restTemplate);
         } catch (TravelAppException e) {
@@ -64,7 +64,7 @@ public class AirportController {
     public Location getAirport(@PathVariable("code") String code) throws ExecutionException, InterruptedException {
         String result = null;
         try {
-            Future<String> asynchronousResults = asyncService.getAsynchronousResults(endpoint.getAirportByCode() + code, String.class, restTemplate);
+            CompletableFuture<String> asynchronousResults = asyncService.getAsynchronousResults(endpoint.getAirportByCode() + code, String.class, restTemplate);
             result = asynchronousResults.get();
         } catch (TravelAppException e) {
             log.error("Error Occurred ::: {} {}", e.getCode(), e.getMessage());
@@ -75,5 +75,21 @@ public class AirportController {
         map.put("airport", result);
         return utils.convertTOEntity(map, Location.class);
     }
+
+    @GetMapping(value = "/airports", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Airport getAllAirports() throws ExecutionException, InterruptedException, TravelAppException {
+        log.info("fetching all airports");
+        Map map = null;
+        try {
+            CompletableFuture<Map> future = asyncService.getAsynchronousResults(endpoint.getAirportUrlByTerm(), Map.class, restTemplate);
+            map = future.get();
+        } catch (TravelAppException e) {
+            log.error("Error Occurred ::: {} {}", e.getCode(), e.getMessage());
+        }
+        if (null == map)
+            return new Airport();
+        return utils.convertTOEntity(map, Airport.class);
+    }
+
 
 }
