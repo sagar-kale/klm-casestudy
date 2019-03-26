@@ -24,24 +24,9 @@ import java.util.Arrays;
 @Slf4j
 public class OauthClientConfig {
 
-    @Autowired(required = false)
-    private ClientHttpRequestFactory clientHttpRequestFactory;
-
     @Autowired
     private Endpoint endpoint;
 
-    /*
-     * ClientHttpRequestFactory is autowired and checked in case somewhere in
-     * your configuration you provided {@link ClientHttpRequestFactory}
-     * implementation Bean where you defined specifics of your connection, if
-     * not it is instantiated here with {@link SimpleClientHttpRequestFactory}
-     */
-    private ClientHttpRequestFactory getClientHttpRequestFactory() {
-        if (clientHttpRequestFactory == null) {
-            clientHttpRequestFactory = new SimpleClientHttpRequestFactory();
-        }
-        return clientHttpRequestFactory;
-    }
 
     @Bean
     public OAuth2RestOperations restTemplate() {
@@ -52,7 +37,6 @@ public class OauthClientConfig {
     }
 
     public OAuth2RestTemplate prepareTemplate(OAuth2RestTemplate template, boolean isClient) {
-        template.setRequestFactory(getClientHttpRequestFactory());
         template.setErrorHandler(new ExceptionHandler());
         if (isClient) {
             template.setAccessTokenProvider(clientAccessTokenProvider());
@@ -73,7 +57,6 @@ public class OauthClientConfig {
     @Bean
     public AccessTokenProvider clientAccessTokenProvider() {
         ClientCredentialsAccessTokenProvider accessTokenProvider = new ClientCredentialsAccessTokenProvider();
-        accessTokenProvider.setRequestFactory(getClientHttpRequestFactory());
         return accessTokenProvider;
     }
 

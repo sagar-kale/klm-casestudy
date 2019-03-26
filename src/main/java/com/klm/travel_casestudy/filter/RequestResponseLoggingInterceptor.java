@@ -1,4 +1,4 @@
-package com.klm.travel_casestudy.config;
+package com.klm.travel_casestudy.filter;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpRequest;

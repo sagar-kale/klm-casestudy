@@ -35,6 +35,7 @@ public class AirportController {
 
     @GetMapping(value = "/airports", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, params = "term")
     public Airport getAirports(@RequestParam("term") String term) throws ExecutionException, InterruptedException {
+        log.info("under airport by term method");
         Map map = null;
         try {
             Future<Map> future = asyncService.getAsynchronousResults(endpoint.getAirportUrlByTerm() + term, Map.class, restTemplate);

@@ -15,6 +15,7 @@ public class AsyncServiceImpl implements AsyncService {
     @Override
     @Async
     public <T> Future<T> getAsynchronousResults(String resourceUrl, Class<T> resultType, RestOperations restTemplate) {
+        log.info("executing async method");
         return new AsyncResult<>(getForObject(resourceUrl, resultType,
                 restTemplate));
     }

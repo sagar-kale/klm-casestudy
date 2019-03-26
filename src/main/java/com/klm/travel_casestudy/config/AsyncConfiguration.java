@@ -16,7 +16,8 @@ public class AsyncConfiguration {
         executor.setCorePoolSize(2);
         executor.setMaxPoolSize(4);
         executor.setQueueCapacity(500);
-        executor.setThreadNamePrefix("async-task-{thread_id}-");
+        executor.setThreadNamePrefix("async-task-");
+        executor.setTaskDecorator(new LoggingTaskDecorator());
         executor.initialize();
         return executor;
     }
