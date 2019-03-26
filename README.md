@@ -32,7 +32,7 @@ Open browser type url ->  `http://localhost:7777` It will load Angular UI**
 
 ## UI
 
-**Provided origin and destination inbuilt search at `search flight` Menu **
+**Provided origin and destination inbuilt search at `search flight` Menu**
 
 **Backend Statistics displayed at `Statistics` Menu**
 
