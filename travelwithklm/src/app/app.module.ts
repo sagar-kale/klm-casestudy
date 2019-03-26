@@ -13,6 +13,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { routes } from './app-routing.module';
 import { StatsComponent } from './stats/stats.component';
+import { AirportsComponent } from './airports/airports.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { StatsComponent } from './stats/stats.component';
     AboutComponent,
     HomeComponent,
     UserComponent,
-    StatsComponent
+    StatsComponent,
+    AirportsComponent
   ],
   imports: [
     BrowserModule,
