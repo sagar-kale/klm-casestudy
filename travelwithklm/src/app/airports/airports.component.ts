@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AirportsService } from './airports.service';
 import { Airport } from '../airport';
+import { Location } from '../location';
 
 @Component({
   selector: 'app-airports',
@@ -8,7 +9,8 @@ import { Airport } from '../airport';
   styleUrls: ['./airports.component.css']
 })
 export class AirportsComponent implements OnInit {
-  locations: Airport;
+  locations: Location[];
+  indiaMap=new Map<String,Location>();
   constructor(
     private airportService: AirportsService
   ) { }
@@ -19,8 +21,16 @@ export class AirportsComponent implements OnInit {
 
   getLocationData() {
     this.airportService.getLocations().subscribe(res => {
-      console.log("airport response", res);
-      this.locations = res;
+      this.locations = res.locations;
+      this.locations.forEach(element => {
+        if (element.parent != undefined) {
+          if (!!element.parent.parent) {
+            if (element.parent.parent.code.toUpperCase() == "IN")
+              this.indiaMap.set(element.parent.code, element.parent);
+          }
+        }
+      });
+      console.log("all india airports", this.indiaMap);
     });
   }
 
