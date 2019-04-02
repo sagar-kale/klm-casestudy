@@ -77,11 +77,13 @@ public class AirportController {
     }
 
     @GetMapping(value = "/airports", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Airport getAllAirports() throws ExecutionException, InterruptedException, TravelAppException {
+    public Airport getAllAirports(@RequestParam(value = "page",defaultValue = "1") String page, @RequestParam(value = "size",defaultValue = "25") String size) throws ExecutionException, InterruptedException, TravelAppException {
         log.info("fetching all airports");
         Map map = null;
+        String url = String.format(endpoint.getAirportsUrl(), page, size);
+        log.info("Pageable url {}", url);
         try {
-            CompletableFuture<Map> future = asyncService.getAsynchronousResults(endpoint.getAirportUrlByTerm(), Map.class, restTemplate);
+            CompletableFuture<Map> future = asyncService.getAsynchronousResults(url, Map.class, restTemplate);
             map = future.get();
         } catch (TravelAppException e) {
             log.error("Error Occurred ::: {} {}", e.getCode(), e.getMessage());
