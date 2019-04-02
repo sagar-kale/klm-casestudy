@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  airport_url:'/airports'
+  airport_url:'/airports?page=1&size=10000'
 };
 
 /*
